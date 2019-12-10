@@ -945,7 +945,7 @@ htmldir='${docdir}'
 dvidir='${docdir}'
 pdfdir='${docdir}'
 psdir='${docdir}'
-libdir='${exec_prefix}/lib/mysql/plugin/'
+libdir='${exec_prefix}/lib/plugin/'
 localedir='${datarootdir}/locale'
 mandir='${datarootdir}/man'
 

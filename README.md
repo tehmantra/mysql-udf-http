@@ -3,6 +3,15 @@ MySQL User-defined function (UDF) for HTTP GET/POST
 
 MySQL User-defined function (UDF) for HTTP REST
 
+**Note:** This is *another* fork of [y-ken/mysql-udf-http](https://github.com/y-ken/mysql-udf-http)
+
+This fixes/changes the following:
+* Plugin directory changed from `${exec_prefix}/lib/mysql/plugin/` to `${exec_prefix}/lib/plugin/`. This matches the pluign directory provided by the official mysql:5.5 docker image.
+* Updates to README.md for official mysql:5.5 docker image
+
+
+-----
+
 **Note:** It is a fork repository. Original Website is below.  
 http://code.google.com/p/mysql-udf-http
 
@@ -30,16 +39,13 @@ make sure these depandencies are installed.
 For Debian, like this.
 
 ```
-apt-get install mysql-server
-apt-get install make
-apt-get install gcc
-apt-get install libmysqlclient-dev
-apt-get install pkg-config
+apt-get update
+apt-get install make gcc default-libmysqlclient-dev pkg-config wget unzip -y
 ```
 
 ### 1. Install on Linux
 
-This sample is written for "/usr/local/webserver/mysql/" is your MySQL install path.
+This sample is written for "/usr/local/mysql/" is your MySQL install path. (as per the mysql:5.5 docker image)
 
 ```
 ulimit -SHn 65535
@@ -50,12 +56,13 @@ cd curl-7.21.1/
 make && make install
 cd ../
 
-echo "/usr/local/webserver/mysql/lib/mysql/" > /etc/ld.so.conf.d/mysql.conf
+echo '/usr/local/mysql/lib/' > /etc/ld.so.conf.d/mysql.conf
 /sbin/ldconfig
-wget http://mysql-udf-http.googlecode.com/files/mysql-udf-http-1.0.tar.gz
-tar zxvf mysql-udf-http-1.0.tar.gz
-cd mysql-udf-http-1.0/
-./configure --prefix=/usr/local/webserver/mysql --with-mysql=/usr/local/webserver/mysql/bin/mysql_config
+wget https://github.com/tehmantra/mysql-udf-http/archive/master.zip
+unzip mysql-udf-http-master.zip
+cd mysql-udf-http-master/
+chmod +x ./configure
+./configure --prefix=/usr/local/mysql --with-mysql=/usr/local/mysql/bin/mysql_config
 make && make install
 cd ../
 ```
@@ -63,7 +70,7 @@ cd ../
 ### 2. Enter to the MySQL console
 
 ```
-/usr/local/webserver/mysql/bin/mysql -S /tmp/mysql.sock
+/usr/local/webserver/mysql/bin/mysql --socket=/tmp/mysql.sock --password=$MYSQL_ROOT_PASSWORD
 ```
 
 ### 3. Create the UDF function in the MySQL console
